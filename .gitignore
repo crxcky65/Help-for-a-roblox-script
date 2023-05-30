@@ -1,41 +1,30 @@
-# Compiled Lua sources
-luac.out
+local part = script.Parent -- Das Teil, das berührt werden soll
+local timer = 0 -- Der Timer, der gestartet wird
+local debounce = false -- Variable, um Mehrfachausführung zu verhindern
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "TimerGUI" -- Gib der GUI einen Namen, damit sie leichter gefunden werden kann
+gui.Parent = player.PlayerGui
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 50)
+frame.Position = UDim2.new(0.5, -100, 0.9, -25)
+frame.Parent = gui
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, 0, 1, 0)
+label.BackgroundTransparency = 1
+label.TextColor3 = Color3.new(1, 1, 1)
+label.TextStrokeTransparency = 0
+label.TextStrokeColor3 = Color3.new(0, 0, 0)
+label.TextScaled = true
+label.Font = Enum.Font.SourceSansBold
+label.Parent = frame
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+part.Touched:Connect(function(hit)
+    local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
+    if humanoid and not debounce then
+        debounce = true
+        timer = 0 -- Setze den Timer auf 0
+        label.Text = "Timer: "..timer -- Aktualisiere die Anzeige
+        gui.Enabled = true -- Zeige die GUI an
 
